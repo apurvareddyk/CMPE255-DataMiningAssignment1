@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+    .weather-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+</style>
+
+<div class="weather-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Weather Application</h1>
+                <form id="weatherForm">
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <select id="city" name="city" class="form-control" required>
+                            <option value="">Select City</option>
+                            <option value="New York">New York</option>
+                            <option value="Los Angeles">Los Angeles</option>
+                            <option value="London">London</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" class="form-control" required>
+                            <option value="">Select State</option>
+                            <option value="New York">New York</option>
+                            <option value="California">California</option>
+                            <option value="London">London</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Weather</button>
+                </form>
+                <div id="weatherInfo" class="mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Weather Information
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Temperature: <span id="temperature"></span></h5>
+                            <p class="card-text">Condition: <span id="condition"></span></p>
+                            <p class="card-text">Humidity: <span id="humidity"></span></p>
+                            <p class="card-text">Wind Speed: <span id="windSpeed"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#weatherForm').submit(function(event) {
+            event.preventDefault();
+
+            var city = $('#city').val();
+            var state = $('#state').val();
+            var country = $('#country').val();
+
+            // Make API call to get weather data
+            // Replace 'YOUR_API_KEY' with your actual API key
+            var apiKey = 'e3425ab97ce347fbb8661413240909';
+            var apiUrl = 'https://api.weatherapi.com/v1/current.json?key=' + apiKey + '&q=' + city + ',' + state + ',' + country;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(response) {
+                    // Display weather information
+                    // Return temperature in Fahrenheit
+                    var weatherInfo = '<h5 class="card-title">Temperature: <span id="temperature">' + response.current.temp_f + '°F</span></h5>';
+                    weatherInfo += '<p class="card-text">Condition: <span id="condition">' + response.current.condition.text + '</span></p>';
+                    weatherInfo += '<p class="card-text">Humidity: <span id="humidity">' + response.current.humidity + '</span></p>';
+                    weatherInfo += '<p class="card-text">Wind Speed: <span id="windSpeed">' + response.current.wind_mph + ' mph</span></p>';
+
+                    $('#weatherInfo .card-body').html(weatherInfo);
+                },
+                error: function() {
+                    $('#weatherInfo .card-body').html('Failed to fetch weather data.');
+                }
+            });
+        });
+    });
+</script>

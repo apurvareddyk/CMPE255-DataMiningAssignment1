@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        form {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        #weatherInfo {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    
+    <form id="weatherForm">
+        <label for="city">City:</label>
+        <select id="city" name="city" required>
+            <option value="New York">New York</option>
+            <option value="Los Angeles">Los Angeles</option>
+            <option value="Chicago">Chicago</option>
+            <!-- Add more cities here -->
+        </select>
+
+        <label for="state">State:</label>
+        <select id="state" name="state" required>             <option value="New York">New York</option>            <option value="California">California</option>              <option value="Illinois">Illinois</option>n            <!-- Add more states here -->
+ada</option>        <select id="country" name="country" required>            <option value="United States">United States</option>/div>            <option value="Canada">Canada</option>            <option value="United Kingdom">United Kingdom</option>            <!-- Add more countries here -->
+        
+        <button type="submit">Submit</button>
+    </form><script>
+        // Add your JavaScript code here
+        document.getElementById("weatherForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Get user input values
+            var city = document.getElementById("city").value;
+            var state = document.getElementById("state").value;
+            var country = document.getElementById("country").value;
+            
+            // Make API call to get weather information
+            // Replace API_KEY with your actual API key
+            var apiKey = "e3425ab97ce347fbb866141324090";
+            var apiUrl = "https://api.weatherapi.com/v1/current.json?key=" + apiKey + "&q=" + city + "," + state + "," + country;
+            
+            fetch(apiUrl)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                // Display weather information
+                var weatherInfo = document.getElementById("weatherInfo");
+                weatherInfo.innerHTML = "Temperature: " + data.current.temp_c + "°C";
+            })
+            .catch(function(error) {
+                console.log("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
